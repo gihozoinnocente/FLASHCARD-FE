@@ -89,6 +89,15 @@ export default function Login() {
   };
 
   return (
+    <Box
+    sx={{
+      flexGrow: 1,
+      backgroundColor: "whitesmoke",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -178,5 +187,6 @@ export default function Login() {
         </Box>
       </Container>
     </ThemeProvider>
+    </Box>
   );
 }

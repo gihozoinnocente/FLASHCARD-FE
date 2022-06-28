@@ -1,27 +1,23 @@
-import React, { ReactElement, FC } from "react";
-import { Box, CssBaseline, Typography } from "@mui/material";
-import {
-  Container,
-  TextField,
-  Button,
-  makeStyles,
-} from "@material-ui/core";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import * as React from "react";
 import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Link, useNavigate } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Link } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import CircularProgress from "@mui/material/CircularProgress";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-
-const SIGNIN_USER = gql`
- mutation{
-  signup(email:"gihozo100@gmail.com",password:"Pass@123",name:"hiio")
+const SIGNUP_USER = gql`
+    mutation {
+      signup(name:"hhh",email:"gihozo100@gmail.com",password:"Pass@123")
 {
   token
   user{
@@ -31,46 +27,32 @@ const SIGNIN_USER = gql`
 }
 `;
 
-interface IFormInput {
-  firstName: string;
-  email: string;
-  password: string;
-}
-const useStyles = makeStyles((theme) => ({
-    heading: {
-      textAlign: "center",
-      margin: theme.spacing(1, 0, 4),
-    },
-    submitButton: {
-      marginTop: theme.spacing(4),
-    },
-  }));
-const Signup: FC<any> = (): ReactElement => {
+const theme = createTheme();
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  // } = useForm<IFormInput>();
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
-  // const { heading, submitButton } = useStyles();
-
-  // const [json, setJson] = useState<string>();
-
-  // const onSubmit = (data: IFormInput) => {
-  //   setJson(JSON.stringify(data));
-  // };
-
-  const [name, setName] = React.useState<string>("");
+export default function Login() {
+  const navigate = useNavigate();
+  const [name,setName]=React.useState<string>("");
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
-  const [errorField, setErrorField] = React.useState<boolean>(false);
-  const [helperText, setHelperText] = React.useState<string>("");
+  const [errorField, setErrorField] = React.useState(false);
+  const [helperText, setHelperText] = React.useState("");
   const [signUpError, setSignUpError] = React.useState<string>("");
   const [open, setOpen] = React.useState(false);
-  const [userRegister, { data, loading, error }] = useMutation(SIGNIN_USER, {
+  const [userSignUp, { data, loading, error }] = useMutation(SIGNUP_USER, {
     onError: (error) => {
       setSignUpError(error.message);
       setOpen(true);
+    },
+    onCompleted: (userSignUp) => {
+      localStorage.setItem("auth", JSON.stringify(userSignUp.signup));
+      navigate("/about");
     },
   });
 
@@ -84,15 +66,10 @@ const Signup: FC<any> = (): ReactElement => {
 
     setOpen(false);
   };
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const dataForm = new FormData(event.currentTarget);
-    if (
-      !name.trim() ||
-      !email.trim() ||
-      !password.trim()
-    ) {
+    if (!name.trim() || !email.trim() || !password.trim()) {
       setErrorField(true);
       setHelperText("All Fields are required");
       return;
@@ -102,30 +79,28 @@ const Signup: FC<any> = (): ReactElement => {
       password: dataForm.get("password"),
       name: dataForm.get("name"),
     });
-    userRegister({
+    userSignUp({
       variables: {
         input: {
-          name: dataForm.get("name"),
           email: dataForm.get("email"),
           password: dataForm.get("password"),
+          name: dataForm.get("name")
         },
       },
     });
   };
 
-  console.log({ data, loading, error });
-
   return (
     <Box
-      sx={{
-        flexGrow: 1,
-        backgroundColor: "whitesmoke",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {/* <ThemeProvider theme={theme}> */}
+    sx={{
+      flexGrow: 1,
+      backgroundColor: "whitesmoke",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -136,7 +111,7 @@ const Signup: FC<any> = (): ReactElement => {
             alignItems: "center",
           }}
         >
-          {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert
               onClose={handleClose}
               severity="error"
@@ -144,86 +119,84 @@ const Signup: FC<any> = (): ReactElement => {
             >
               {signUpError}
             </Alert>
-          </Snackbar> */}
+          </Snackbar>
           <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign in
           </Typography>
           <Box
             component="form"
-            noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
+            noValidate
+            sx={{ mt: 1 }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                  }}
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="Name"
-                  autoFocus
-                  error={errorField}
-                  helperText={helperText}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  name="email"
-                  autoComplete="email"
-                  error={errorField}
-                  helperText={helperText}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  error={errorField}
-                  helperText={helperText}
-                />
-              </Grid>
-            </Grid>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+              error={errorField}
+              helperText={helperText}
+            />
+              <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              error={errorField}
+              helperText={helperText}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              error={errorField}
+              helperText={helperText}
+            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              color= "primary"
+              sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              {loading ? (
+                <CircularProgress sx={{ color: "white" }} />
+              ) : (
+                "Sign Up "
+              )}
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container>
               <Grid item>
                 <Link to="/login" style={{ textDecoration: "none" }}>
                   <Typography variant="body2" sx={{ color: "primary.main" }}>
-                    Already have an account? Sign in
+                    {"Already have an account? Sign in"}
                   </Typography>
                 </Link>
               </Grid>
@@ -231,10 +204,11 @@ const Signup: FC<any> = (): ReactElement => {
           </Box>
         </Box>
       </Container>
-    {/* </ThemeProvider> */}
+    </ThemeProvider>
     </Box>
-    
   );
-};
+}
+function SIGNIN_USER(SIGNIN_USER: any, arg1: { onError: (error: import("@apollo/client").ApolloError) => void; onCompleted: (userSignUp: any) => void; }): [any, { data: any; loading: any; error: any; }] {
+  throw new Error("Function not implemented.");
+}
 
-export default Signup;
