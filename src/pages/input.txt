@@ -1,0 +1,51 @@
+ <Container maxWidth="xs">
+     <Typography variant="h3">
+       Sign Up Form
+     </Typography>
+ 
+     <form>
+     <TextField
+        //  {...register("firstName")}
+         variant="outlined"
+         margin="normal"
+         label="Names"
+         fullWidth
+         required
+       />
+       <TextField
+        //  {...register("email")}
+         variant="outlined"
+         margin="normal"
+         label="Email"
+         fullWidth
+         required
+       />
+      
+       <TextField
+        //  {...register("password")}
+         variant="outlined"
+         margin="normal"
+         label="Password"
+         type="password"
+         fullWidth
+         required
+       />
+       <Button
+         type="submit"
+         fullWidth
+         variant="contained"
+        //  className={submitButton}
+        color= "primary"
+       >
+         Sign Up
+       </Button>
+       {/* {json && (
+         <>
+           <Typography variant="body1">
+             clickable
+           </Typography>
+           <Typography variant="body2">{json}</Typography>
+         </>
+       )} */}
+     </form>
+   </Container>

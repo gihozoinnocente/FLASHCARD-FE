@@ -3,7 +3,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Flashcards from "./pages/Flashcards";
 import Signup from "./pages/Signup";
-
+import Login from "./pages/Login";
+// import Dashboard from "./pages/Dashboard";
 // other
 import {FC} from "react";
 
@@ -19,11 +20,18 @@ interface Route {
 export const routes: Array<Route> = [
     {
         key: 'home-route',
-        title: 'Home',
+        title: '',
         path: '/',
         enabled: true,
         component: Home
     },
+    // {
+    //     key: 'dashboard-route',
+    //     title: 'Dashboard',
+    //     path: '/',
+    //     enabled: true,
+    //     component: Dashboard
+    // },
     {
         key: 'about-route',
         title: 'About',
@@ -44,5 +52,12 @@ export const routes: Array<Route> = [
         path: '/signup',
         enabled: true,
         component: Signup
+    },
+    {
+        key: 'login-route',
+        title: 'Login',
+        path: '/login',
+        enabled: true,
+        component: Login
     }
 ]
