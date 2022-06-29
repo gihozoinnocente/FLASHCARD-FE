@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Dispatch } from "redux";
+import CardActions from '@mui/material/CardActions';
 import NavBar from "../components/NavBar";
 import {
   cardErrorAction,
@@ -426,14 +427,23 @@ function ListFlashCard() {
                   <>
                     <AddIcon sx={{ margin: "0px 5px" }} />
                     <Typography>Create</Typography>
-					<Link to="/allflashcard">
-                </Link>
                   </>
                 )}
               </Button>
             </Stack>
+		 
           </Box>
         </Modal>
+		<Link to='/allflashcard'>
+            <CardActions>
+              {' '}
+              <Button size='small' variant='contained' sx={{height:55,marginLeft:120,marginTop:-21}}>
+                {/* <CreateIcon /> */}
+                Back to all Flashcard
+              </Button>
+            </CardActions>
+          </Link>
+
         <Modal
           open={openUpdateModal}
           onClose={() => {
