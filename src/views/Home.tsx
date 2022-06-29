@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, CssBaseline, Grid, Link, Paper, ThemeProvider, Typography } from '@mui/material';
+import { Box, Button, CssBaseline, Grid, Paper, Typography } from '@mui/material';
 import NavBar from '../components/NavBar';
 import flashCard from "../assets/images/img8.jpg";
 function Home() {
