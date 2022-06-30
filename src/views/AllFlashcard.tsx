@@ -9,8 +9,6 @@ import ReactCardFlip from 'react-card-flip';
 import CircularProgress from '@mui/material/CircularProgress';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import QuestionAnswerTwoToneIcon from '@mui/icons-material/QuestionAnswerTwoTone';
-import { Link } from 'react-router-dom';
-import CardActions from '@mui/material/CardActions';
 import { Button, MenuItem, Modal, Select, Stack, TextField} from '@mui/material';
 import NavBar from '../components/NavBar';
 import { useForm } from 'react-hook-form';
