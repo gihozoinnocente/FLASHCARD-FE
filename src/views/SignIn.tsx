@@ -50,6 +50,7 @@ export default function SignIn() {
 				localStorage.setItem('token', value.data.login.token);
 				localStorage.setItem('userId', value.data.login.user.id);
 				dispatch(getUserAction(value.data.login));
+				toast.success("Successfully signin");
 				navigate('/allflashcard');
 			})
 			.catch((error) => {

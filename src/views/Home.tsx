@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, CssBaseline, Grid, Paper, Typography } from '@mui/material';
+import { Box, Button, CssBaseline, Grid, Link, Paper, Typography } from '@mui/material';
 import NavBar from '../components/NavBar';
 import flashCard from "../assets/images/img8.jpg";
 function Home() {
@@ -15,14 +15,7 @@ function Home() {
 					justifyContent: 'center',
 					flexDirection: 'column',
 				}}>
-				{/* <Typography color='primary' fontSize={{ xs: '35px', md: '50px' }} fontWeight='bold'>
-					The Flashcard App
-				</Typography>
-				<Typography color='black' fontSize={{ xs: '14px', md: '16px' }}>
-					The right place to enlight your self .
-				</Typography> */}
-
-
+				
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -65,7 +58,12 @@ function Home() {
                 textTransform: "none",
               }}
             >
+            <Grid item>
+              <Link href="/sign-in" variant="h4" sx={{color: "primary.light"}}>
               Get Flashcard
+              </Link>
+            </Grid>
+             
             </Button>
             
           </Box>

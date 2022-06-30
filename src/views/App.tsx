@@ -9,8 +9,8 @@ import { ApolloClient, ApolloClientOptions, ApolloProvider, InMemoryCache } from
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 // import OneFlashCard from './OneFlashCard';
-import FlashCard from './FlashCard';
-import ListFlashCard from './ListFlashCard';
+// import FlashCard from './FlashCard';
+// import ListFlashCard from './ListFlashCard';
 import AllFlashCard from './AllFlashcard';
 
 const theme = createTheme({
@@ -39,7 +39,7 @@ let clientObject: object = {
 
 if (localStorage.getItem('token')) {
 	clientObject = Object.assign(clientObject, {
-		headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+		headers: { Authorization: `${localStorage.getItem('token')}` },
 	});
 }
 
@@ -53,10 +53,10 @@ function App() {
 					<Route path='' element={<Home />}></Route>
 					<Route path='sign-in' element={<SignIn />}></Route>
 					<Route path='sign-up' element={<SignUp />}></Route>
-					<Route path='flashcard' element={<FlashCard />}>
-						<Route path='' element={<ListFlashCard />} />
+					{/* <Route path='flashcard' element={<FlashCard />}> */}
+						{/* <Route path='' element={<ListFlashCard />} /> */}
 						{/* <Route path=':id' element={<OneFlashCard />} /> */}
-					</Route>
+					{/* </Route> */}
 					<Route path='allflashcard' element={<AllFlashCard />}></Route>
 				</Routes>
 				<ToastContainer />

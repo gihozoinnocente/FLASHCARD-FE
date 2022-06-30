@@ -29,7 +29,6 @@ const SIGN_UP = gql`
 	mutation SignUp($email: String!, $password: String!, $name: String!) {
 		signup(name: $name, email: $email, password: $password) {
 			token
-			token
 			user {
 				id
 				name
@@ -57,10 +56,10 @@ export default function SignUp() {
 			},
 		})
 			.then((value) => {
-				localStorage.setItem('token', value.data.signup.token);
-				localStorage.setItem('userId', value.data.signup.user.id);
+				
 				dispatch(getUserAction(value.data.signup));
-				navigate('/allflashcard');
+				toast.success("Successfully signup");
+				navigate('/sign-in');
 			})
 			.catch((error) => {
 				toast.error(error.message);

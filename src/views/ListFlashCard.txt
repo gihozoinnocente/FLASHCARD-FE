@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import { Dispatch } from "redux";
 import CardActions from '@mui/material/CardActions';
 import NavBar from "../components/NavBar";
+import { useNavigate } from 'react-router-dom';
 import {
   cardErrorAction,
   CardState,
@@ -36,7 +37,7 @@ import {
   getCardsAction,
   loadingCreateCardAction,
   loadingDeleteCardAction,
-  // loadingGetCardsAction,
+  loadingGetCardsAction,
   loadingUpdateCardAction,
   updateCardAction,
 } from "../redux/reducers/card.reducer";
@@ -80,6 +81,7 @@ const DELETE_CARD = gql`
 `;
 
 function ListFlashCard() {
+  const navigate = useNavigate();
   const theme = useTheme();
   const cardsData: CardState = useSelector(
     (state: RootState) => state.cardReducer
@@ -124,8 +126,8 @@ function ListFlashCard() {
     setValue: updateSetValue,
   } = useForm();
 
-  // const getCards = async () => {
-  // 	let variables = {};
+  const getCards = async () => {
+  	let variables = {};
 
   // 	if (author) {
   // 		variables = Object.assign(variables, { findCardEmail2: author });
@@ -139,23 +141,23 @@ function ListFlashCard() {
   // 		});
   // 	}
 
-  // 	dispatch(loadingGetCardsAction({}));
-  // 	await findCards({
-  // 		variables,
-  // 		fetchPolicy: 'network-only',
-  // 		onError: (error) => {},
-  // 	})
-  // 		.then((value) => {
-  // 			if (value.error) {
-  // 				throw value.error;
-  // 			}
-  // 			dispatch(getCardsAction(value.data.findCard));
-  // 		})
-  // 		.catch((error) => {
-  // 			toast.error(error.message);
-  // 			dispatch(cardErrorAction(error));
-  // 		});
-  // };
+  	dispatch(loadingGetCardsAction({}));
+  	await findCards({
+  		variables,
+  		fetchPolicy: 'network-only',
+  		onError: (error) => {},
+  	})
+  		.then((value) => {
+  			if (value.error) {
+  				throw value.error;
+  			}
+  			dispatch(getCardsAction(value.data.findCard));
+  		})
+  		.catch((error) => {
+  			toast.error(error.message);
+  			dispatch(cardErrorAction(error));
+  		});
+  };
   const handleCreateCard = async (data: object) => {
     dispatch(loadingCreateCardAction({}));
     await post({
@@ -166,6 +168,7 @@ function ListFlashCard() {
       },
       onCompleted: (data) => {
         dispatch(createCardAction(data.post));
+		navigate('/allflashcard')
       },
     });
 
@@ -213,11 +216,11 @@ function ListFlashCard() {
     setOpenUpdateModal(true);
   };
 
-  // useEffect(() => {
-  // 	getCards().then(() => {
-  // 		console.log('finished running');
-  // 	});
-  // }, []);
+  useEffect(() => {
+  	getCards().then(() => {
+  		console.log('finished running');
+  	});
+  }, []);
 
   return (
     <>
@@ -286,7 +289,7 @@ function ListFlashCard() {
 						</Button>
 					</Grid> */}
         </Grid>
-        {/* <Container sx={{ padding: '10px 0px' }}>
+        <Container sx={{ padding: '10px 0px' }}>
 					{!cardsData.loadingGet && cardsData.data ? (
 						<Stack gap='10px' direction='column' width='100%'>
 							{cardsData.data.cards.map((card: CardType) => (
@@ -373,7 +376,7 @@ function ListFlashCard() {
 					) : (
 						<CircularProgress />
 					)}
-				</Container> */}
+				</Container>
 
         <Modal
           open={openCreateModal}
@@ -425,8 +428,15 @@ function ListFlashCard() {
                   <CircularProgress size="20px" />
                 ) : (
                   <>
+                   
+                    
+                    <Grid item>
                     <AddIcon sx={{ margin: "0px 5px" }} />
-                    <Typography>Create</Typography>
+                    <Link to='/allflashcard'>
+                    Create
+                    </Link>
+                     </Grid>
+                    
                   </>
                 )}
               </Button>

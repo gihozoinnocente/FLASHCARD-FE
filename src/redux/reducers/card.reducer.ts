@@ -34,12 +34,12 @@ export const cardSlice = createSlice({
 		): CardState => {
 			return { ...state, loadingGet: false, error: null, data: payload };
 		},
-		// loadingGetCards: (
-		// 	state: CardState,
-		// 	{ type, payload }: { type: string; payload: object },
-		// ): CardState => {
-		// 	return { ...state, loadingGet: true };
-		// },
+		loadingGetCards: (
+			state: CardState,
+			{ type, payload }: { type: string; payload: object },
+		): CardState => {
+			return { ...state, loadingGet: true };
+		},
 		createCard: (
 			state: CardState,
 			{ type, payload }: { type: string; payload: CardType },
@@ -132,7 +132,7 @@ export const cardSlice = createSlice({
 
 export const {
 	getCards: getCardsAction,
-	// loadingGetCards: loadingGetCardsAction,
+	loadingGetCards: loadingGetCardsAction,
 	cardError: cardErrorAction,
 	createCard: createCardAction,
 	loadingCreateCard: loadingCreateCardAction,
