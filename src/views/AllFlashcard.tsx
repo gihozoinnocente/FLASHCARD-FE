@@ -1,23 +1,23 @@
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import { useQuery, gql, useLazyQuery, useMutation } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import ReactCardFlip from 'react-card-flip';
 import CircularProgress from '@mui/material/CircularProgress';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import QuestionAnswerTwoToneIcon from '@mui/icons-material/QuestionAnswerTwoTone';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CardActions from '@mui/material/CardActions';
-import { Button, Container, MenuItem, Modal, Select, Stack, TextField, useTheme } from '@mui/material';
+import { Button, MenuItem, Modal, Select, Stack, TextField} from '@mui/material';
 import NavBar from '../components/NavBar';
 import { useForm } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { loadingCreateCardAction, cardErrorAction, createCardAction } from '../redux/reducers/card.reducer';
 import { toast } from 'react-toastify';
-import { CardState, loadingCreateCardAction, cardErrorAction, createCardAction } from '../redux/reducers/card.reducer';
-import { RootState } from '../redux/store';
+
 
 const DISPLAY_ALL_CARDS = gql`
   query {
@@ -65,13 +65,12 @@ function AllFlashCard() {
   
   const [
     post,
-    { data: createData, loading: createLoading, error: createError },
+    { loading: createLoading },
   ] = useMutation(CREATE_CARD);
  
   const {
     register: createRegister,
     reset: createReset,
-    getValues: createGetValues,
     handleSubmit: createHandleSubmit,
   } = useForm();
 
@@ -81,7 +80,7 @@ function AllFlashCard() {
       variables: data,
       onError: (error) => {
         refetch();
-        // toast.error(error.message);
+        toast.success("Flip Card successfully created");
         dispatch(cardErrorAction(error.message));
       },
       onCompleted: (data) => {
@@ -99,15 +98,6 @@ function AllFlashCard() {
     <NavBar />
     
     <Box sx={{ display: 'flex',marginTop:10 }}>  
-    <Link to='/flashcard'>
-            <CardActions>
-              {' '}
-              <Button size='small' variant='contained'>
-                {/* <CreateIcon /> */}
-                 Add new Card
-              </Button>
-            </CardActions>
-          </Link>
     <Stack margin="10px 0px">
           <Button
             fullWidth
